@@ -25,6 +25,8 @@ export const addNewPage = async (req: Request, res: Response) => {
     !userLink.startsWith("https")
   ) {
     //throw new CustomAPIError("invalid url", StatusCodes.BAD_REQUEST);
+
+    //typically you would use an Error with 400 status code, but it prevents the app from passing the tests on freeCodeCamp site
     return res.status(StatusCodes.OK).json({ error: "invalid url" });
   }
 
