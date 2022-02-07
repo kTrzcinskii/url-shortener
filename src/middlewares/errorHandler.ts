@@ -14,7 +14,6 @@ const errorHandler: ErrorRequestHandler = (
   };
 
   if (CustomError.message === "Invalid URL") {
-    CustomError.message = "invalid url";
     CustomError.statusCode = StatusCodes.BAD_REQUEST;
   }
 
