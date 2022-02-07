@@ -17,9 +17,13 @@ export const getAllPages = async (_: Request, res: Response) => {
 };
 
 export const addNewPage = async (req: Request, res: Response) => {
-  const userLink = req.body.url;
+  const userLink: string = req.body.url;
 
-  if (!validUrl.isUri(userLink)) {
+  if (
+    !validUrl.isUri(userLink) ||
+    !userLink.startsWith("http") ||
+    !userLink.startsWith("https")
+  ) {
     //throw new CustomAPIError("invalid url", StatusCodes.BAD_REQUEST);
     return res.status(StatusCodes.OK).json({ error: "invalid url" });
   }
