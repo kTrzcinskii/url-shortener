@@ -21,7 +21,7 @@ app.get("/", function (_, res: Response) {
   res.sendFile(process.cwd() + "/views/index.html");
 });
 
-app.use("/api/shorturl", shortUrlRouter);
+app.use("/api", shortUrlRouter);
 
 app.use(errorHandler);
 
