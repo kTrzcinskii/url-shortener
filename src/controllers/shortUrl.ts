@@ -1,9 +1,7 @@
 import { Request, Response } from "express";
-import dns from "dns/promises";
 import Url from "../models/Url";
 import { StatusCodes } from "http-status-codes";
 import CustomAPIError from "../errors/CustomAPIError";
-import { URL } from "url";
 
 export const getAllPages = async (_: Request, res: Response) => {
   const allLinks = await Url.find({});
@@ -19,10 +17,10 @@ export const getAllPages = async (_: Request, res: Response) => {
 
 export const addNewPage = async (req: Request, res: Response) => {
   const userLink = req.body.url;
-  const domainName = new URL(userLink);
-  try {
-    await dns.lookup(domainName.hostname);
-  } catch (error) {
+  const urlRegExp =
+    /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/;
+
+  if (!urlRegExp.test(userLink)) {
     throw new CustomAPIError("invalid url", StatusCodes.BAD_REQUEST);
   }
 
