@@ -1,9 +1,10 @@
 require("dotenv").config();
-require("express-async-errors");
+import "express-async-errors";
 import express, { Response } from "express";
 import cors from "cors";
 import shortUrlRouter from "./routes/shorUrl";
 import mongoose from "mongoose";
+import errorHandler from "./middlewares/errorHandler";
 
 const app = express();
 app.use(express.json());
@@ -26,6 +27,8 @@ app.use("/api/shorturl", shortUrlRouter);
 app.get("/api/hello", function (_, res: Response) {
   res.json({ greeting: "hello API" });
 });
+
+app.use(errorHandler);
 
 const start = async () => {
   try {
