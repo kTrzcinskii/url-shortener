@@ -1,3 +1,8 @@
+:root {
+  --dark-blue: #152238;
+  --blue: #1c2e4a;
+}
+
 body {
   font-family: Arial, sans-serif;
   font-size: 16px;
@@ -12,11 +17,20 @@ main {
   margin-top: 40px;
 }
 
+h1 {
+  color: var(--dark-blue);
+}
+
 h3 {
+  color: var(--dark-blue);
   margin-top: 30px;
 }
 
-
+fieldset {
+  border-color: var(--blue);
+  border-style: solid;
+  border-radius: 5px;
+}
 
 .user-stories li {
   margin-bottom: 1em;
@@ -33,6 +47,7 @@ form {
 }
 
 label {
+  color: var(--dark-blue);
   margin-right: 10px;
 }
 
@@ -40,7 +55,51 @@ input {
   padding: 5px;
 }
 
-input[type='text'] {
+input[type="text"] {
   width: 220px;
   text-align: center;
+  border: none;
+  border: 1px solid var(--dark-blue);
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+input[type="submit"] {
+  color: #fff;
+  background-color: var(--dark-blue);
+  border: var(--dark-blue);
+  font-weight: bold;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+input[type="submit"]:hover {
+  background-color: var(--blue);
+  border: var(--blue);
+  cursor: pointer;
+}
+
+footer {
+  margin-top: 30px;
+}
+
+span {
+  font-weight: bold;
+  color: var(--dark-blue);
+}
+
+.instructions {
+  display: flex;
+  flex-direction: column;
+  width: 550px;
+  text-align: left;
+  margin: 0 auto;
+  padding: 20px;
+
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.instructions:hover {
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.18), 0 10px 10px rgba(0, 0, 0, 0.22);
 }
