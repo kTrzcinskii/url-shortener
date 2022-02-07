@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import Url from "../models/Url";
 import { StatusCodes } from "http-status-codes";
 import CustomAPIError from "../errors/CustomAPIError";
+import validUrl from "valid-url";
 
 export const getAllPages = async (_: Request, res: Response) => {
   const allLinks = await Url.find({});
@@ -17,9 +18,8 @@ export const getAllPages = async (_: Request, res: Response) => {
 
 export const addNewPage = async (req: Request, res: Response) => {
   const userLink = req.body.url;
-  const urlRegExp = /^(http|https)(:\/\/)/;
 
-  if (!urlRegExp.test(userLink)) {
+  if (!validUrl.isUri(userLink)) {
     throw new CustomAPIError("invalid url", StatusCodes.BAD_REQUEST);
   }
 
