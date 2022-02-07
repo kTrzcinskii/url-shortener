@@ -1,6 +1,11 @@
-import mongoose from "mongoose";
+import mongoose, { Document } from "mongoose";
 
-const UrlSchema = new mongoose.Schema({
+export interface UrlInterface extends Document {
+  linkNumber: number;
+  linkDomain: string;
+}
+
+const UrlSchema = new mongoose.Schema<UrlInterface>({
   linkNumber: {
     type: Number,
     unique: true,
@@ -13,4 +18,4 @@ const UrlSchema = new mongoose.Schema({
   },
 });
 
-export default mongoose.model("Url", UrlSchema);
+export default mongoose.model<UrlInterface>("Url", UrlSchema);

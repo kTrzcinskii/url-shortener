@@ -5,9 +5,18 @@ import { StatusCodes } from "http-status-codes";
 import CustomAPIError from "../errors/CustomAPIError";
 import { URL } from "url";
 
-export const getAllPages = (req: Request, res: Response) => {
-  res.send("get all pages");
+export const getAllPages = async (_: Request, res: Response) => {
+  const allLinks = await Url.find({});
+  const nbHits = allLinks.length;
+
+  const listOfLinks = allLinks.map((link) => ({
+    original_url: link.linkDomain,
+    short_url: link.linkNumber,
+  }));
+
+  res.status(StatusCodes.OK).json({ nbHits, listOfLinks });
 };
+
 export const addNewPage = async (req: Request, res: Response) => {
   const userLink = req.body.url;
   const domainName = new URL(userLink);
@@ -17,9 +26,36 @@ export const addNewPage = async (req: Request, res: Response) => {
     throw new CustomAPIError("invalid url", StatusCodes.BAD_REQUEST);
   }
 
-  res.send("add new page");
+  const linkFromDB = await Url.findOne({
+    linkDomain: userLink,
+  });
+  if (linkFromDB) {
+    return res.status(StatusCodes.OK).json({
+      original_url: linkFromDB.linkDomain,
+      short_url: linkFromDB.linkNumber,
+    });
+  }
+
+  const numberOfLinks = await Url.countDocuments();
+  const newLink = await Url.create({
+    linkDomain: userLink,
+    linkNumber: numberOfLinks + 1,
+  });
+
+  res
+    .status(StatusCodes.CREATED)
+    .json({ original_url: newLink.linkDomain, short_url: newLink.linkNumber });
 };
 
-export const redirectToAnotherPage = (req: Request, res: Response) => {
-  res.redirect("https://www.google.com");
+export const redirectToAnotherPage = async (req: Request, res: Response) => {
+  const linkNumber = req.params.id;
+  const redirectPage = await Url.findOne({ linkNumber });
+  if (!redirectPage) {
+    throw new CustomAPIError(
+      "No record of such URL in DB",
+      StatusCodes.BAD_REQUEST
+    );
+  }
+
+  res.status(StatusCodes.OK).redirect(redirectPage?.linkDomain);
 };
