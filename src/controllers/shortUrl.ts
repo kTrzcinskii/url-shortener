@@ -21,7 +21,7 @@ export const addNewPage = async (req: Request, res: Response) => {
 
   if (!validUrl.isUri(userLink)) {
     //throw new CustomAPIError("invalid url", StatusCodes.BAD_REQUEST);
-    res.status(StatusCodes.OK).json({ error: "invalid url" });
+    return res.status(StatusCodes.OK).json({ error: "invalid url" });
   }
 
   const linkFromDB = await Url.findOne({
