@@ -17,8 +17,7 @@ export const getAllPages = async (_: Request, res: Response) => {
 
 export const addNewPage = async (req: Request, res: Response) => {
   const userLink = req.body.url;
-  const urlRegExp =
-    /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/;
+  const urlRegExp = /^(http|https)(:\/\/)/;
 
   if (!urlRegExp.test(userLink)) {
     throw new CustomAPIError("invalid url", StatusCodes.BAD_REQUEST);
